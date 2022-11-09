@@ -10,15 +10,15 @@ def lcs(A, B):
             else:
                 F[i][j] = max(F[i-1][j], F[i][j-1])
     out = []
-    for i in range(len(F), 0, -1):
-        for j in range(len(F[0]), 0, -1):
-            if
+#    for i in range(len(F), 0, -1):
+#        for j in range(len(F[0]), 0, -1):
+#            if
 
     return F[-1][-1], F
 
 
-A = "1234658754135489741576"
-B = "5789410083157343121780065123415431"
+A = "1234e65f875"
+B = "adsfehgfhfh"
 l, posl = lcs(A, B)
 print(l)
 for row in posl:
