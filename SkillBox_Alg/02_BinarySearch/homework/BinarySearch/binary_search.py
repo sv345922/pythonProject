@@ -1,5 +1,4 @@
 import random
-
 from typing import List
 
 
@@ -15,23 +14,40 @@ def do_i_know_this_language(languages: List[str], search: str) -> bool:
             return True
     return False
 
+
 def find_phone_number(sorted_phone_numbers: List[int], search: int) -> int:
     """Возвращает индекс найденного телефона в списке sorted_phone_numbers или -1 если номаре в списке нет"""
+    def finder(left, right):
+        """возвращает обновленные границы диапазона и значение индекса если соответсвие найдено, иначе None"""
+        middle = (left + right) // 2
+        tmp = sorted_phone_numbers[middle]
+        if tmp < search:
+            left = middle + 1
+        elif tmp > search:
+            right = middle - 1
+        else:
+            return left, right, middle
+        return left, right, None
+
+
     if sorted_phone_numbers[0] < sorted_phone_numbers[-1]:
         left = 0
         right = len(sorted_phone_numbers) - 1
         while left <= right:
-            middle = (left + right) // 2
-            tmp = sorted_phone_numbers[middle]
-            if tmp < search:
-                left = middle + 1
-            elif tmp > search:
-                right = middle - 1
-            else:
-                return middle
-    else
+            left, right, result = finder(left, right)
+            if result:
+                return result
+
+    else:
+        left = len(sorted_phone_numbers) - 1
+        right = 0
+        while left >= right:
+            left, right, result = finder(left, right)
+            if result:
+                return result
 
     return -1
+
 
 def find_users(users_sorted_by_iq: List[DatingUser], lower_iq_bound: int, professor_iq: int) -> List[str]:
     """Возвращает список имен из списка users_sorted_by_iq у которых iq в пределах от lower_iq_bound до professor_iq
@@ -60,17 +76,34 @@ def find_users(users_sorted_by_iq: List[DatingUser], lower_iq_bound: int, profes
     return res
 
 
-peoples = []
 #for i in map(int, "71 74 75 76 77 80 93 95 96 97 97 99 102 104 106 111 117 121 135 136".split()):
 #    man = DatingUser(iq=i, name=str(i) + "man")
 #    peoples.append(man)
-for _ in range(100):
-    i = random.randrange(70, 140)
-    man = DatingUser(iq=i, name='men'+str(i))
-    peoples.append(man)
-peoples.sort(key=lambda x: x.iq)
 
-for elem in peoples:
-    print(elem.iq, end=" ")
-print()
-print(find_users(peoples, 90, 105))
+
+def test(n):
+    """тестировщик поиска номера"""
+    # Генерация списка номеров
+    search = random.randrange(80000000000, 90000000000)
+    print(search, end=" ")
+    numbers = [search]
+    for _ in range(100):
+        number = "8"
+        for a in range(10):
+            i = random.randrange(0, 10)
+            number += str(i)
+        numbers.append(int(number))
+    direct = random.choice([False, True])
+    numbers.sort(reverse=direct)
+    ind = find_phone_number(numbers, search)
+    if numbers.index(search) == ind:
+        print(f"test {n} - ок")
+    else:
+        print(f"test {n} - faild")
+
+for n in range(1, 51):
+    test(n)
+
+#print(numbers)
+#print(f"Фактический индекс {numbers.index(search)}")
+#print(f"Расчетный индекс {find_phone_number(numbers, search)}")
