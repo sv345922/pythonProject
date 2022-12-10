@@ -17,36 +17,30 @@ def do_i_know_this_language(languages: List[str], search: str) -> bool:
 
 def find_phone_number(sorted_phone_numbers: List[int], search: int) -> int:
     """Возвращает индекс найденного телефона в списке sorted_phone_numbers или -1 если номаре в списке нет"""
-    def finder(left, right):
+    def finder(left, right, direction=1):
         """возвращает обновленные границы диапазона и значение индекса если соответсвие найдено, иначе None"""
-        middle = (left + right) // 2
-        tmp = sorted_phone_numbers[middle]
-        if tmp < search:
-            left = middle + 1
-        elif tmp > search:
-            right = middle - 1
-        else:
-            return left, right, middle
-        return left, right, None
+        while direction * left <= direction * right:
+            middle = (left + right) // 2
+            tmp = sorted_phone_numbers[middle]
+            if tmp < search:
+                left = middle + direction
+            elif tmp > search:
+                right = middle - direction
+            else:
+                return middle
+        return -1
 
 
     if sorted_phone_numbers[0] < sorted_phone_numbers[-1]:
         left = 0
         right = len(sorted_phone_numbers) - 1
-        while left <= right:
-            left, right, result = finder(left, right)
-            if result:
-                return result
+        return finder(left, right, 1)
+
 
     else:
         left = len(sorted_phone_numbers) - 1
         right = 0
-        while left >= right:
-            left, right, result = finder(left, right)
-            if result:
-                return result
-
-    return -1
+        return finder(left, right, -1)
 
 
 def find_users(users_sorted_by_iq: List[DatingUser], lower_iq_bound: int, professor_iq: int) -> List[str]:
@@ -85,7 +79,6 @@ def test(n):
     """тестировщик поиска номера"""
     # Генерация списка номеров
     search = random.randrange(80000000000, 90000000000)
-    print(search, end=" ")
     numbers = [search]
     for _ in range(100):
         number = "8"
@@ -94,6 +87,7 @@ def test(n):
             number += str(i)
         numbers.append(int(number))
     direct = random.choice([False, True])
+    print(direct, end=" ")
     numbers.sort(reverse=direct)
     ind = find_phone_number(numbers, search)
     if numbers.index(search) == ind:
@@ -101,9 +95,16 @@ def test(n):
     else:
         print(f"test {n} - faild")
 
-for n in range(1, 51):
+for n in range(50):
     test(n)
 
-#print(numbers)
-#print(f"Фактический индекс {numbers.index(search)}")
-#print(f"Расчетный индекс {find_phone_number(numbers, search)}")
+#lst = []
+#with open("test_list", "r") as file:
+#    for line in file:
+#        lst.append(line.strip())
+
+#search = lst[5]
+#lst.sort(reverse=False)
+
+#print(find_phone_number(lst, search))
+
