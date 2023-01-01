@@ -31,5 +31,5 @@ mx = numpy.zeros((N, N), dtype=int)
 Snakes.np_snake(mx, N)
 for row in mx:
     for elem in row:
-        print(elem, end=" ")
+        print(str(elem).ljust(3), end=" ")
     print()
