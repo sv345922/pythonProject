@@ -8,13 +8,23 @@ class Student:
 
 
 def hash_string(value: str) -> int:
-    # TODO Please implement
-    return -1
+    """возвращает сумму кодов всимволов в строке"""
+    from functools import reduce
+    result = reduce(lambda tot, elem: tot + ord(elem), value, 0)
+    return result
 
 def hash_int(value: int) -> int:
-    # TODO Please implement
-    return -1
+    """возвращает произведение цифр числа value, наличие ноля обнуляет результат"""
+    result = 1
+    while value > 0:
+        result *= value % 10
+        value //= 10
+    return result
 
 def hash_student(value: Student) -> int:
-    # TODO Please implement
-    return -1
+    """возвращает сумму хэшей атрибутов экземпляра класса Student"""
+    result = hash_int(value.age) + hash_string(value.name)
+    return result
+
+stud1 = Student(54, "Nike")
+print(hash_student(stud1))

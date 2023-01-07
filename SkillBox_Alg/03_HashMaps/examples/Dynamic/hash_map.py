@@ -58,7 +58,7 @@ class HashMap:
         if entry is None:
             return None
         # Так как нет защиты от коллизий,
-        # перебираем все элементы, если в ячейку не тот ключ
+        # перебираем все элементы, если в ячейке не тот ключ
         if entry.key == key:
             return entry.value
 
@@ -68,6 +68,7 @@ class HashMap:
         return None
 
     def find_good_index(self, key: str) -> int:
+        """Возвращает индекс свободного элемента массива либо элемента с ключом равным key, иначе -1"""
         calculated_hash = self.hash_function(key)
         index = calculated_hash % self.size
         for i in range(self.size):

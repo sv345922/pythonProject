@@ -16,8 +16,8 @@ class DynamicArray:
     def resize(self, new_size: int) -> None:
         new_values = [None] * new_size
         i = 0
-        while i < size:
-            new_values[i] = values[i]
+        while i < self.size:
+            new_values[i] = self.values[i]
             i += 1
         self.values = new_values
         self.size = new_size

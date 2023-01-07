@@ -12,6 +12,8 @@ def my_is_sorted(array: List[int]) -> bool:
 
 
 def random_sort(array: List[int]) -> None:
+    """сотирует список array по возрастанию меняя элементы между собой в случайном порядке
+    возвращает количество попыток"""
     k = 0
     while not my_is_sorted(array):
         n, m = random.sample(range(len(array)), 2)
